@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker 线程演示</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Worker 线程演示</h1>
+        
+        <div class="section">
+            <h2>Node.js Worker Threads</h2>
+            <p>Node.js Worker Threads 允许在 Node.js 应用程序中运行多线程，适用于 CPU 密集型任务。</p>
+            <div class="controls">
+                <button id="runNodeWorker">使用 Worker 运行</button>
+                <button id="runNodeNoWorker">不使用 Worker 运行</button>
+            </div>
+            <div id="nodeWorkerOutput" class="output"></div>
+        </div>
+        
+        <div class="section">
+            <h2>Web Workers 对比演示</h2>
+            <p>下面展示了有Worker和无Worker时执行耗时任务的区别：</p>
+            
+            <div class="comparison-container">
+                <div class="comparison-box">
+                    <h3>使用 Web Worker（不阻塞UI）</h3>
+                    <div class="controls">
+                        <button id="startWebWorker">启动 Worker</button>
+                        <button id="stopWebWorker" disabled>停止 Worker</button>
+                        <input type="number" id="numberInput" value="40" min="1" max="45">
+                        <button id="calculateFibonacci">计算斐波那契数</button>
+                    </div>
+                    <div class="demo-area">
+                        <div class="animation-box">
+                            <div class="animation-element"></div>
+                            <div class="animation-label">动画（应保持流畅）</div>
+                        </div>
+                        <div id="webWorkerOutput" class="output"></div>
+                    </div>
+                </div>
+                
+                <div class="comparison-box">
+                    <h3>不使用 Web Worker（会阻塞UI）</h3>
+                    <div class="controls">
+                        <input type="number" id="numberInputNoWorker" value="40" min="1" max="45">
+                        <button id="calculateFibonacciNoWorker">计算斐波那契数</button>
+                    </div>
+                    <div class="demo-area">
+                        <div class="animation-box">
+                            <div class="animation-element animation-element-no-worker"></div>
+                            <div class="animation-label">动画（会被阻塞）</div>
+                        </div>
+                        <div id="noWorkerOutput" class="output"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="explanation">
+                <p><strong>效果对比说明：</strong></p>
+                <ul>
+                    <li>左侧使用Web Worker：计算过程中动画保持流畅</li>
+                    <li>右侧不使用Worker：计算过程中动画会停止（UI被阻塞）</li>
+                    <li>尝试输入较大的数值（如35-42）可以更明显地看到区别</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
