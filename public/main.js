@@ -137,23 +137,20 @@ document.addEventListener('DOMContentLoaded', () => {
         // 记录开始时间
         const startTime = performance.now();
         
-        // 注意：这里会阻塞UI线程
-        setTimeout(() => {
-            try {
-                // 直接在主线程中计算
-                const result = fibonacci(n);
-                const endTime = performance.now();
-                const duration = (endTime - startTime).toFixed(2);
-                
-                appendToOutput(noWorkerOutput, `计算完成，耗时: ${duration}ms`);
-                appendToOutput(noWorkerOutput, `计算结果: ${result}`);
-            } catch (error) {
-                appendToOutput(noWorkerOutput, `计算出错: ${error.message}`);
-            } finally {
-                calculateFibonacciNoWorkerBtn.disabled = false;
-                numberInputNoWorker.disabled = false;
-            }
-        }, 10); // 短暂延迟，让UI能够更新
+        try {
+            // 直接在主线程中计算，会阻塞UI线程
+            const result = fibonacci(n);
+            const endTime = performance.now();
+            const duration = (endTime - startTime).toFixed(2);
+            
+            appendToOutput(noWorkerOutput, `计算完成，耗时: ${duration}ms`);
+            appendToOutput(noWorkerOutput, `计算结果: ${result}`);
+        } catch (error) {
+            appendToOutput(noWorkerOutput, `计算出错: ${error.message}`);
+        } finally {
+            calculateFibonacciNoWorkerBtn.disabled = false;
+            numberInputNoWorker.disabled = false;
+        }
     });
 
     // 辅助函数

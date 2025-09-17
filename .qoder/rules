@@ -1,0 +1,192 @@
+[rule: 用中文回答]
+[rule: 不要使用 markdown]
+[rule: 回答不超过 100 字]
+
+# Qoder Rules for Worker Demo Project
+
+## Project Overview
+This is a Node.js Worker Threads and Web Workers demonstration project showcasing multithreading in both server-side and client-side environments.
+
+## Technology Stack
+- **Backend**: Node.js with Express.js
+- **Frontend**: Vanilla JavaScript, HTML5, CSS3
+- **Threading**: Node.js Worker Threads, Web Workers
+- **Package Manager**: npm
+
+## Code Style Guidelines
+
+### JavaScript
+- Use ES6+ features where appropriate
+- Prefer `const` and `let` over `var`
+- Use arrow functions for callbacks and short functions
+- Use template literals for string interpolation
+- Follow camelCase naming convention
+- Add comprehensive error handling with try-catch blocks
+- Include meaningful comments for complex logic
+
+### HTML
+- Use semantic HTML5 elements
+- Include proper accessibility attributes
+- Maintain consistent indentation (2 spaces)
+- Use descriptive IDs and class names
+
+### CSS
+- Use flexbox for layout where appropriate
+- Follow BEM methodology for class naming when applicable
+- Group related properties together
+- Use CSS custom properties for repeated values
+- Ensure responsive design principles
+
+## File Organization Rules
+
+### Directory Structure
+- `/public/` - Client-side files (HTML, CSS, JS, Web Workers)
+- `/node-worker/` - Node.js Worker Threads examples
+- Root level - Server configuration and main entry point
+
+### File Naming
+- Use lowercase with hyphens for HTML/CSS files
+- Use camelCase for JavaScript files and functions
+- Use descriptive names that indicate file purpose
+
+## Worker Thread Guidelines
+
+### Node.js Worker Threads
+- Always handle worker errors with proper error listeners
+- Use `workerData` for initial data passing
+- Implement proper cleanup with worker termination
+- Log meaningful messages for debugging
+- Use `parentPort.postMessage()` for worker-to-main communication
+
+### Web Workers
+- Implement proper message handling with structured data
+- Use typed messages (e.g., `{type: 'log', data: '...'}`)
+- Handle worker termination gracefully
+- Provide progress updates for long-running tasks
+- Include error handling within workers
+
+## Performance Guidelines
+
+### CPU-Intensive Tasks
+- Always use workers for tasks that might block the main thread
+- Provide visual feedback during long-running operations
+- Include timing measurements for performance analysis
+- Use appropriate algorithms (even inefficient ones for demonstration)
+
+### UI Responsiveness
+- Never block the main thread with synchronous heavy computation
+- Provide loading states and progress indicators
+- Maintain smooth animations during background processing
+- Implement proper button state management (disabled/enabled)
+
+## Error Handling Standards
+
+### Server-Side
+- Wrap worker operations in try-catch blocks
+- Return structured error responses from API endpoints
+- Log errors with appropriate detail level
+- Handle worker exit codes properly
+
+### Client-Side
+- Implement proper fetch error handling
+- Provide user-friendly error messages
+- Handle worker errors and termination
+- Validate user input before processing
+
+## API Design Rules
+
+### Endpoints
+- Use RESTful naming conventions
+- Return consistent JSON response format
+- Include appropriate HTTP status codes
+- Provide meaningful error messages
+
+### Response Format
+```javascript
+{
+  success: boolean,
+  output?: string[],
+  error?: string,
+  data?: any
+}
+```
+
+## Testing Guidelines
+
+### Manual Testing
+- Test both worker and non-worker scenarios
+- Verify UI responsiveness during heavy computation
+- Test error scenarios (invalid input, worker failures)
+- Check animation smoothness during calculations
+
+### Browser Compatibility
+- Ensure Web Workers support detection
+- Provide fallbacks for unsupported features
+- Test across different browsers
+
+## Documentation Requirements
+
+### Code Comments
+- Document complex algorithms and business logic
+- Explain worker communication patterns
+- Include performance considerations
+- Document browser compatibility notes
+
+### README Updates
+- Keep installation and usage instructions current
+- Document new features and changes
+- Include troubleshooting information
+- Provide examples for common use cases
+
+## Security Considerations
+
+### Input Validation
+- Validate all user inputs on both client and server
+- Sanitize data before processing
+- Implement reasonable limits for computational tasks
+- Prevent potential DoS through excessive computation
+
+### Worker Security
+- Avoid passing sensitive data to workers
+- Implement proper worker termination
+- Handle worker communication securely
+
+## Development Workflow
+
+### Before Committing
+- Test both Node.js and Web Worker functionality
+- Verify UI animations work correctly
+- Check console for errors
+- Ensure responsive design works
+
+### Code Review Checklist
+- Worker error handling implemented
+- Performance measurements included
+- UI remains responsive
+- Code follows style guidelines
+- Documentation is updated
+
+## Build and Deployment
+
+### Dependencies
+- Keep dependencies minimal and up-to-date
+- Document all required Node.js versions
+- Include package-lock.json in version control
+
+### Environment Setup
+- Provide clear setup instructions
+- Document required Node.js version
+- Include development and production configurations
+
+## Maintenance
+
+### Regular Updates
+- Keep npm dependencies updated
+- Test compatibility with new Node.js versions
+- Update documentation as needed
+- Monitor for security vulnerabilities
+
+### Performance Monitoring
+- Regular performance testing of worker implementations
+- Monitor memory usage during heavy computations
+- Check for memory leaks in long-running workers

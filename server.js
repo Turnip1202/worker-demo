@@ -17,6 +17,17 @@ app.get('/', (req, res) => {
 // Node.js Worker Threads API
 app.get('/run-node-worker', (req, res) => {
   const output = [];
+  let responseAlreadySent = false;
+  
+  // 设置超时时间（30秒）
+  const timeout = setTimeout(() => {
+    if (!responseAlreadySent) {
+      responseAlreadySent = true;
+      output.push('主线程: 工作线程执行超时，强制终止');
+      worker.terminate();
+      res.json({ success: false, output, error: '工作线程执行超时' });
+    }
+  }, 30000);
   
   // 创建一个 Worker 线程
   const worker = new Worker(path.join(__dirname, 'node-worker', 'worker.js'), {
@@ -24,15 +35,32 @@ app.get('/run-node-worker', (req, res) => {
   });
   
   // 收集输出
-  worker.on('message', (result) => {
-    output.push(`主线程: 收到工作线程的结果 - ${result}`);
+  worker.on('message', (data) => {
+    if (typeof data === 'object' && data.type) {
+      // 处理结构化消息
+      if (data.type === 'log') {
+        output.push(data.message);
+      } else if (data.type === 'result') {
+        output.push(`主线程: 收到工作线程的结果 - ${data.message}`);
+      }
+    } else {
+      // 处理简单字符串消息（向后兼容）
+      output.push(`主线程: 收到工作线程的结果 - ${data}`);
+    }
   });
   
   worker.on('error', (error) => {
     output.push(`主线程: 工作线程发生错误 - ${error}`);
+    if (!responseAlreadySent) {
+      responseAlreadySent = true;
+      clearTimeout(timeout);
+      res.json({ success: false, output, error: error.message });
+    }
   });
   
   worker.on('exit', (code) => {
+    clearTimeout(timeout);
+    
     if (code !== 0) {
       output.push(`主线程: 工作线程异常退出，退出码: ${code}`);
     } else {
@@ -40,7 +68,10 @@ app.get('/run-node-worker', (req, res) => {
     }
     
     // 返回收集到的输出
-    res.json({ success: true, output });
+    if (!responseAlreadySent) {
+      responseAlreadySent = true;
+      res.json({ success: true, output });
+    }
   });
   
   // 向工作线程发送消息
